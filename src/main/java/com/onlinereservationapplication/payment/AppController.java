@@ -32,11 +32,12 @@ public class AppController
         return ResponseEntity.ok(paymentRepository.findAll());
     }
 
-    @PostMapping("add/payment")
-    public ResponseEntity<String> addPayment(@RequestBody Payment payment)
+    @PostMapping("add/payment/{bookingNumber}")
+    public ResponseEntity<String> addPayment(@PathVariable String bookingNumber)
     {
+        Payment payment = new Payment();
         payment.setPaymentNumber(String.valueOf(UUID.randomUUID()));
-        payment.setBookingNumber(payment.getBookingNumber());
+        payment.setBookingNumber(bookingNumber);
         payment.setPaymentDate(LocalDate.now());
         paymentRepository.save(payment);
         return ResponseEntity.ok("Requested Payment Entry added successfully" + payment);

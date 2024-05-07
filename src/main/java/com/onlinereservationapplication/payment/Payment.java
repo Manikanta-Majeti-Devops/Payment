@@ -14,7 +14,7 @@ public class Payment {
     @Column(name = "payment_number", nullable = false, length = 500)
     private String paymentNumber;
 
-    @Column(name = "booking_number", length = 20)
+    @Column(name = "booking_number", length = 500)
     private String bookingNumber;
 
     @Column(name = "payment_date")
