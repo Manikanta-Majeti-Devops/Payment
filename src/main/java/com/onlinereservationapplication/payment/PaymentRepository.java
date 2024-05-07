@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 public interface PaymentRepository extends JpaRepository<Payment, String>
 {
     // You can add custom query methods here if needed
+    Payment findByPaymentNumber(String paymentNumber);
 }

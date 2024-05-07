@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -30,5 +31,30 @@ public class AppController
     {
         return ResponseEntity.ok(paymentRepository.findAll());
     }
+
+    @PostMapping("add/payment")
+    public ResponseEntity<String> addPayment(@RequestBody Payment payment)
+    {
+        payment.setPaymentNumber(String.valueOf(UUID.randomUUID()));
+        payment.setBookingNumber(payment.getBookingNumber());
+        payment.setPaymentDate(LocalDate.now());
+        paymentRepository.save(payment);
+        return ResponseEntity.ok("Requested Payment Entry added successfully" + payment);
+    }
+
+    @PostMapping("edit/payment/{paymentNumber}")
+    public ResponseEntity<String> editPayment(@PathVariable String paymentNumber)
+    {
+        paymentRepository.save(paymentRepository.findByPaymentNumber(paymentNumber));
+        return ResponseEntity.ok("Requested Payment Entry updated successfully" + paymentNumber);
+    }
+
+    @PostMapping("delete/payment/{paymentNumber}")
+    public ResponseEntity<String> deletePayment(@PathVariable String paymentNumber)
+    {
+        paymentRepository.delete(paymentRepository.findByPaymentNumber(paymentNumber));
+        return ResponseEntity.ok("Requested Payment Entry Deleted successfully" + paymentNumber);
+    }
+
 
 }
